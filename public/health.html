@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BCIM PDF Toolkit Health</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background: #eef3f8;
+      color: #0f172a;
+      padding: 28px;
+    }
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+    }
+    .panel {
+      background: #fff;
+      border: 1px solid #dbe4f0;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    h1 { margin: 0 0 4px; font-size: 24px; }
+    p { margin: 0; color: #64748b; line-height: 1.55; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 7px 11px;
+      border: 1px solid #dbe4f0;
+      background: #f8fafc;
+      color: #334155;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #94a3b8;
+    }
+    .ok .dot { background: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.14); }
+    .bad .dot { background: #ef4444; box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.14); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .metric {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric span {
+      display: block;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .metric strong {
+      font-size: 15px;
+      word-break: break-word;
+    }
+    code {
+      display: block;
+      background: #0f172a;
+      color: #dbeafe;
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+      line-height: 1.5;
+      font-size: 12px;
+    }
+    button, a.button {
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-radius: 7px;
+      padding: 9px 12px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .muted { color: #64748b; font-size: 12px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel header">
+      <div>
+        <h1>BCIM PDF Toolkit Health</h1>
+        <p>Use this page to confirm the webserver is responding and to get restart commands.</p>
+      </div>
+      <div id="statusBadge" class="badge">
+        <span class="dot"></span>
+        <span id="statusText">Checking...</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="grid">
+        <div class="metric"><span>Server URL</span><strong id="serverUrl">-</strong></div>
+        <div class="metric"><span>Health JSON</span><strong id="healthJson">Checking...</strong></div>
+        <div class="metric"><span>Checked At</span><strong id="checkedAt">-</strong></div>
+        <div class="metric"><span>Expected Port</span><strong>5173</strong></div>
+      </div>
+      <div class="actions">
+        <a class="button" href="/">Open App</a>
+        <button type="button" onclick="runCheck()">Refresh Status</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 style="font-size:16px;margin:0 0 10px;">Restart Server</h2>
+      <p>Browser pages cannot restart PM2 directly without a privileged backend. Use this command on the server machine.</p>
+      <code id="restartCommand">powershell.exe -NoProfile -ExecutionPolicy Bypass -File "H:\OFFICE PROJECTS\PDF EDITOR\scripts\restart-pdf-toolkit-server.ps1"</code>
+      <div class="actions">
+        <button type="button" onclick="copyCommand()">Copy Restart Command</button>
+      </div>
+      <div class="muted" id="copyStatus"></div>
+    </section>
+  </main>
+
+  <script>
+    async function runCheck() {
+      const badge = document.getElementById('statusBadge');
+      const statusText = document.getElementById('statusText');
+      document.getElementById('serverUrl').textContent = location.origin;
+      document.getElementById('checkedAt').textContent = new Date().toLocaleString();
+      badge.className = 'badge';
+      statusText.textContent = 'Checking...';
+      try {
+        const response = await fetch('/health.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        document.getElementById('healthJson').textContent = data.status || 'ok';
+        badge.className = 'badge ok';
+        statusText.textContent = 'Online';
+      } catch (error) {
+        document.getElementById('healthJson').textContent = error.message || 'Failed';
+        badge.className = 'badge bad';
+        statusText.textContent = 'Problem';
+      }
+    }
+
+    async function copyCommand() {
+      const text = document.getElementById('restartCommand').textContent;
+      await navigator.clipboard.writeText(text);
+      document.getElementById('copyStatus').textContent = 'Restart command copied.';
+    }
+
+    runCheck();
+  </script>
+</body>
+</html>

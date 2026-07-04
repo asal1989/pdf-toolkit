@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 72">
+  <defs>
+    <clipPath id="hx">
+      <polygon points="19,4 62,4 81,36 62,68 19,68 0,36"/>
+    </clipPath>
+  </defs>
+
+  <!-- Hexagon base — dark navy -->
+  <polygon points="19,4 62,4 81,36 62,68 19,68 0,36" fill="#1c2c72"/>
+
+  <!-- Three bold red-orange bars clipped inside the hexagon -->
+  <g clip-path="url(#hx)">
+    <rect x="-4" y="9"  width="90" height="16" fill="#d0391a"/>
+    <rect x="-4" y="28" width="90" height="16" fill="#d0391a"/>
+    <rect x="-4" y="47" width="90" height="16" fill="#d0391a"/>
+  </g>
+
+  <!-- BCIM — bold red-orange, matching bar colour -->
+  <text
+    x="94" y="53"
+    font-family="'Arial Black', 'Arial Bold', Arial, sans-serif"
+    font-size="36"
+    font-weight="900"
+    fill="#d0391a"
+    letter-spacing="1"
+  >BCIM</text>
+</svg>

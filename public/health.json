@@ -1,0 +1,6 @@
+{
+  "app": "BCIM PDF Toolkit",
+  "service": "bcim-pdf-toolkit-web",
+  "status": "ok",
+  "port": 5173
+}

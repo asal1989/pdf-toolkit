@@ -73,13 +73,31 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
     return (
       <div style={styles.wrap}>
         <div style={styles.card}>
-          <div style={styles.logoCircle}>PDF</div>
+          <div style={styles.logoMark}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8.5L13.5 2z" fill="#fff" fillOpacity="0.16" />
+              <path d="M13.5 2v6.5H20L13.5 2z" fill="#fff" fillOpacity="0.32" />
+              <text x="12" y="17.5" textAnchor="middle" fontSize="7.5" fontWeight="800" fill="#fff" fontFamily="Arial, sans-serif">PDF</text>
+            </svg>
+          </div>
           <h1 style={styles.title}>BCIM PDF Toolkit</h1>
-          <p style={styles.subtitle}>This tool is for BCIM Engineering staff only.</p>
+          <p style={styles.subtitle}>Internal tool — sign in with your company account to continue.</p>
           <button style={styles.btn} onClick={handleSignIn} disabled={signingIn}>
+            {signingIn ? (
+              <span style={styles.spinner} />
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 21 21" style={{ flexShrink: 0 }}>
+                <rect x="1" y="1" width="9" height="9" fill="#f25022" />
+                <rect x="11" y="1" width="9" height="9" fill="#7fba00" />
+                <rect x="1" y="11" width="9" height="9" fill="#00a4ef" />
+                <rect x="11" y="11" width="9" height="9" fill="#ffb900" />
+              </svg>
+            )}
             {signingIn ? 'Signing in…' : 'Sign in with Microsoft'}
           </button>
           {error && <p style={styles.error}>{error}</p>}
+          <div style={styles.divider} />
+          <p style={styles.footnote}>BCIM Engineering Private Limited · Staff access only</p>
         </div>
       </div>
     )
@@ -101,31 +119,55 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
 const styles: Record<string, React.CSSProperties> = {
   wrap: {
     minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    background: '#f0f2f5', fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    padding: 20,
+    background: 'radial-gradient(circle at 20% 15%, #3a1210 0%, #1a0605 45%, #0d0302 100%)',
+    fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
   },
   card: {
-    background: '#fff', borderRadius: 14, boxShadow: '0 4px 32px rgba(0,0,0,.10)',
-    width: '100%', maxWidth: 380, padding: '40px 36px', textAlign: 'center',
+    background: '#fff', borderRadius: 20, boxShadow: '0 24px 64px rgba(0,0,0,.35)',
+    width: '100%', maxWidth: 400, padding: '44px 40px 32px', textAlign: 'center',
+    border: '1px solid rgba(255,255,255,0.06)',
   },
-  logoCircle: {
-    width: 56, height: 56, borderRadius: 14, background: '#DC2626', color: '#fff',
-    display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800,
-    fontSize: 14, margin: '0 auto 18px',
+  logoMark: {
+    width: 60, height: 60, borderRadius: 16,
+    background: 'linear-gradient(135deg, #E23B3B 0%, #B91C1C 100%)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    margin: '0 auto 20px', boxShadow: '0 8px 20px rgba(220,38,38,0.35)',
   },
-  title: { fontSize: 20, fontWeight: 800, color: '#111', marginBottom: 6 },
-  subtitle: { fontSize: 13, color: '#888', marginBottom: 24, lineHeight: 1.5 },
+  title: { fontSize: 21, fontWeight: 700, color: '#161616', marginBottom: 8, letterSpacing: '-0.01em' },
+  subtitle: { fontSize: 13.5, color: '#787878', marginBottom: 28, lineHeight: 1.6, maxWidth: 280, margin: '0 auto 28px' },
   btn: {
-    width: '100%', padding: '13px', background: '#DC2626', color: '#fff', border: 'none',
-    borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+    width: '100%', padding: '12px 16px', background: '#fff', color: '#3c3c3c',
+    border: '1px solid #d6d6d6', borderRadius: 10, fontSize: 14.5, fontWeight: 600,
+    cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', gap: 10, transition: 'background 0.15s, border-color 0.15s',
   },
-  error: { marginTop: 12, fontSize: 13, color: '#c00' },
+  spinner: {
+    width: 15, height: 15, border: '2px solid #d6d6d6', borderTopColor: '#3c3c3c',
+    borderRadius: '50%', display: 'inline-block', animation: 'pdf-auth-spin 0.7s linear infinite',
+  },
+  error: {
+    marginTop: 14, fontSize: 12.5, color: '#b42318', background: '#fef3f2',
+    border: '1px solid #fecdca', borderRadius: 8, padding: '8px 12px',
+  },
+  divider: { height: 1, background: '#eee', margin: '26px 0 14px' },
+  footnote: { fontSize: 11, color: '#b0b0b0', letterSpacing: '0.01em' },
   staffBadge: {
-    position: 'fixed', top: 8, right: 10, zIndex: 999, display: 'flex', alignItems: 'center',
-    gap: 10, background: 'rgba(255,255,255,0.92)', border: '1px solid #e5e5e5', borderRadius: 20,
-    padding: '4px 6px 4px 12px', fontSize: 11, color: '#555', boxShadow: '0 2px 10px rgba(0,0,0,.06)',
+    position: 'fixed', top: 10, right: 12, zIndex: 999, display: 'flex', alignItems: 'center',
+    gap: 10, background: 'rgba(255,255,255,0.95)', border: '1px solid #e5e5e5', borderRadius: 20,
+    padding: '5px 6px 5px 14px', fontSize: 12, color: '#555',
+    boxShadow: '0 4px 14px rgba(0,0,0,.08)', backdropFilter: 'blur(6px)',
   },
   signOutBtn: {
-    background: '#f5f5f5', border: '1px solid #e0e0e0', borderRadius: 14, padding: '3px 9px',
-    fontSize: 10, fontWeight: 600, color: '#777', cursor: 'pointer',
+    background: '#f5f5f5', border: '1px solid #e0e0e0', borderRadius: 14, padding: '4px 11px',
+    fontSize: 11, fontWeight: 600, color: '#777', cursor: 'pointer',
   },
+}
+
+// Spinner keyframes injected once (this file has no external stylesheet).
+if (typeof document !== 'undefined' && !document.getElementById('pdf-auth-styles')) {
+  const styleTag = document.createElement('style')
+  styleTag.id = 'pdf-auth-styles'
+  styleTag.textContent = '@keyframes pdf-auth-spin { to { transform: rotate(360deg); } }'
+  document.head.appendChild(styleTag)
 }

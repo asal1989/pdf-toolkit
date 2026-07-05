@@ -81,17 +81,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
               <div style={styles.skylineBlock3} />
               <div style={styles.diagonalAccent} />
               <div style={styles.leftContent}>
-                <svg viewBox="0 0 81 72" style={styles.brandIcon}>
-                  <defs>
-                    <clipPath id="pdf-hx"><polygon points="19,4 62,4 81,36 62,68 19,68 0,36" /></clipPath>
-                  </defs>
-                  <polygon points="19,4 62,4 81,36 62,68 19,68 0,36" fill="#fff" />
-                  <g clipPath="url(#pdf-hx)">
-                    <rect x="-4" y="9" width="90" height="16" fill="#d0391a" />
-                    <rect x="-4" y="28" width="90" height="16" fill="#d0391a" />
-                    <rect x="-4" y="47" width="90" height="16" fill="#d0391a" />
-                  </g>
-                </svg>
+                <img src="/bcim-icon.png" alt="BCIM" style={styles.brandIcon} />
                 <div style={styles.brandWordmark}>
                   <span style={{ color: '#d0391a' }}>B</span>CIM
                 </div>
@@ -185,7 +175,7 @@ const styles: Record<string, React.CSSProperties> = {
     position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column',
     alignItems: 'center', justifyContent: 'center', padding: '32px 20px', textAlign: 'center',
   },
-  brandIcon: { width: 46, height: 41, flexShrink: 0, animation: 'pdf-logo-float 4s ease-in-out infinite' },
+  brandIcon: { width: 48, height: 'auto', flexShrink: 0, animation: 'pdf-logo-float 4s ease-in-out infinite' },
   brandWordmark: { marginTop: 14, fontSize: 20, fontWeight: 900, letterSpacing: '0.03em', color: '#fff', fontFamily: "'Arial Black', Arial, sans-serif" },
   brandTagline: { marginTop: 8, fontSize: 10.5, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.65)', textTransform: 'uppercase' },
   rightPanel: {

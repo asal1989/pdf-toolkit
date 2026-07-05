@@ -85,7 +85,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
                 <div style={styles.brandWordmark}>
                   <span style={{ color: '#d0391a' }}>B</span>CIM
                 </div>
-                <div style={styles.brandTagline}>Building Better Together</div>
+                <div style={styles.brandTagline}>Build Your Dreams</div>
               </div>
             </div>
             <div style={styles.rightPanel}>

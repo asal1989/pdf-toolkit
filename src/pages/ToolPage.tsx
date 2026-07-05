@@ -64,13 +64,6 @@ const IMAGE_INPUT_TOOLS = ['image-to-pdf']
 const DOCX_TOOLS = ['word-to-pdf']
 const XLSX_TOOLS = ['excel-to-pdf']
 const HTML_TOOLS = ['html-to-pdf']
-const MAX_FILE_SIZE = 100 * 1024 * 1024
-// Tools that work on large files by design — no size cap applied
-const NO_SIZE_LIMIT_TOOLS = [
-  'merge', 'split', 'remove-pages', 'extract', 'rotate', 'reorder',
-  'compress', 'repair', 'flatten', 'ocr',
-  'pdf-to-jpg', 'pdf-to-text', 'pdf-to-word', 'pdf-to-excel',
-]
 
 function getAccept(tool: Tool) {
   if (IMAGE_INPUT_TOOLS.includes(tool.id)) return 'image/jpeg,image/png,image/webp'
@@ -252,14 +245,6 @@ export default function ToolPage({ tool, onBack, initialFiles }: Props) {
       return
     }
 
-    if (!NO_SIZE_LIMIT_TOOLS.includes(tool.id)) {
-      const oversized = arr.find(file => file.size > MAX_FILE_SIZE)
-      if (oversized) {
-        setErrorMsg(`${oversized.name} is larger than the 100 MB limit. Tip: use Compress PDF to reduce its size first.`)
-        setStage('error')
-        return
-      }
-    }
     const maxFiles = MAX_TWO_FILE_TOOLS.includes(tool.id) ? 2 : Infinity
     setFiles(prev => isMulti ? [...prev, ...arr].slice(0, maxFiles) : arr.slice(0, 1))
     setStage('configure')
@@ -1160,7 +1145,7 @@ function DropZone({ files, dragging, accept, isMulti, inputRef, onDragEnter, onD
           </div>
           <div style={{ fontSize: 12, color: '#8888aa', marginBottom: 14 }}>or click to browse from your computer</div>
           <div style={{ display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap' }}>
-            {['Max 100MB', isMulti ? 'Multiple files OK' : 'Single file'].map(t => (
+            {['No size limit', isMulti ? 'Multiple files OK' : 'Single file'].map(t => (
               <span key={t} style={{ padding: '3px 10px', borderRadius: 100, background: '#f0f0fa', border: '1px solid #e0e0f5', fontSize: 10, color: '#8888aa' }}>{t}</span>
             ))}
           </div>

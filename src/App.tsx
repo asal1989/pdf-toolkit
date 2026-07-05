@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
 import HomePage from './pages/HomePage'
 import ToolPage from './pages/ToolPage'
 import type { Tool } from './data/tools'
@@ -15,7 +14,6 @@ function loadRecentIds(): string[] {
 
 export default function App() {
   const [activeTool, setActiveTool] = useState<Tool | null>(null)
-  const [sidebarOpen, setSidebarOpen] = useState(true)
   const [pendingFiles, setPendingFiles] = useState<File[]>([])
   const [toolKey, setToolKey] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
@@ -64,23 +62,20 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#f0f0fa' }}>
-      <Sidebar open={sidebarOpen} activeTool={activeTool} onSelectTool={handleSelectTool} onSelectCategory={handleSelectCategory} activeCategory={activeCategory} />
-      <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
-        <Navbar
-          onMenuClick={() => setSidebarOpen(!sidebarOpen)}
-          activeTool={activeTool}
-          onHome={handleHome}
-          searchQuery={searchQuery}
-          onSearch={handleSearch}
-        />
-        <main style={{ flex: 1, overflowY: 'auto' }}>
-          {activeTool
-            ? <ToolPage key={`${activeTool.id}-${toolKey}`} tool={activeTool} onBack={handleBack} initialFiles={pendingFiles} />
-            : <HomePage onSelectTool={handleSelectTool} searchQuery={searchQuery} recentIds={recentIds} activeCategory={activeCategory} onActiveCategory={setActiveCategory} />
-          }
-        </main>
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: '#ffffff' }}>
+      <Navbar
+        activeTool={activeTool}
+        onHome={handleHome}
+        onSelectTool={handleSelectTool}
+        searchQuery={searchQuery}
+        onSearch={handleSearch}
+      />
+      <main style={{ flex: 1, overflowY: 'auto' }}>
+        {activeTool
+          ? <ToolPage key={`${activeTool.id}-${toolKey}`} tool={activeTool} onBack={handleBack} initialFiles={pendingFiles} />
+          : <HomePage onSelectTool={handleSelectTool} searchQuery={searchQuery} recentIds={recentIds} activeCategory={activeCategory} onActiveCategory={handleSelectCategory} />
+        }
+      </main>
     </div>
   )
 }

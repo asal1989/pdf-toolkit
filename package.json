@@ -54,6 +54,9 @@
   "build": {
     "appId": "com.bcim.pdftoolkit",
     "productName": "BCIM PDF Toolkit",
+    "toolsets": {
+      "winCodeSign": "1.1.0"
+    },
     "directories": {
       "output": "release"
     },
@@ -61,7 +64,6 @@
       "dist/**/*",
       "electron/main.cjs",
       "electron/preload.cjs",
-      "node_modules/**/*",
       "package.json"
     ],
     "win": {

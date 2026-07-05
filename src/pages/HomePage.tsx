@@ -19,13 +19,15 @@ type CategoryStyle = {
 }
 
 const categoryStyles: Record<string, CategoryStyle> = {
-  all:            { color: '#2563eb', bg: '#eff6ff', border: '#bfdbfe', soft: '#f8fbff' },
+  all:            { color: '#e5322d', bg: '#fef2f2', border: '#fecaca', soft: '#fffafa' },
   organize:       { color: '#4f46e5', bg: '#eef2ff', border: '#c7d2fe', soft: '#f7f8ff' },
   'convert-to':   { color: '#0f766e', bg: '#ecfdf5', border: '#99f6e4', soft: '#f7fffd' },
   'convert-from': { color: '#047857', bg: '#ecfdf5', border: '#a7f3d0', soft: '#f7fffb' },
   optimize:       { color: '#7c3aed', bg: '#f5f3ff', border: '#ddd6fe', soft: '#fbfaff' },
   security:       { color: '#dc2626', bg: '#fef2f2', border: '#fecaca', soft: '#fffafa' },
 }
+
+const BRAND_RED = '#e5322d'
 
 export default function HomePage({
   onSelectTool,
@@ -62,25 +64,39 @@ export default function HomePage({
   }
 
   return (
-    <div style={{ padding: '26px 32px 36px', maxWidth: 1240, margin: '0 auto' }}>
+    <div style={{ position: 'relative' }}>
+      <div className="page-blob-bg">
+        <div className="page-blob page-blob-a" />
+        <div className="page-blob page-blob-b" />
+        <div className="page-blob page-blob-c" />
+        <div className="page-blob page-blob-d" />
+        <div className="page-blob page-blob-e" />
+      </div>
+      <div style={{ position: 'relative', zIndex: 1, padding: '26px 32px 36px', maxWidth: 1240, margin: '0 auto' }}>
       {!q && (
         <>
           <section style={{
-            background: '#ffffff',
-            border: '1px solid #dbe4f0',
-            borderRadius: 8,
-            padding: '22px 24px',
+            position: 'relative',
+            borderRadius: 16,
             marginBottom: 18,
-            boxShadow: '0 1px 3px rgba(15,23,42,0.04)',
+            overflow: 'hidden',
+            boxShadow: '0 8px 28px rgba(15,23,42,0.08)',
           }}>
+            <div className="hero-blob-field">
+              <div className="hero-blob hero-blob-1" />
+              <div className="hero-blob hero-blob-2" />
+              <div className="hero-blob hero-blob-3" />
+              <div className="hero-blob hero-blob-4" />
+            </div>
+            <div className="hero-glass" style={{ borderRadius: 16, padding: '22px 24px' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
                   <img src="/bcim-logo.png" alt="BCIM" draggable={false} style={{ height: 34, objectFit: 'contain', userSelect: 'none' }} />
                   <span style={{
-                    border: '1px solid #c7d2fe',
-                    background: '#eef2ff',
-                    color: '#4f46e5',
+                    border: '1px solid #fecaca',
+                    background: '#fef2f2',
+                    color: BRAND_RED,
                     borderRadius: 6,
                     padding: '4px 8px',
                     fontSize: 11,
@@ -89,8 +105,8 @@ export default function HomePage({
                     PDF Toolkit
                   </span>
                 </div>
-                <h1 style={{ fontSize: 28, lineHeight: 1.2, color: '#0f172a', marginBottom: 8, fontWeight: 800 }}>
-                  Fast PDF tools for daily office work
+                <h1 style={{ fontSize: 28, lineHeight: 1.2, color: '#18181f', marginBottom: 8, fontWeight: 800 }}>
+                  Every tool you need to work with <span style={{ color: BRAND_RED }}>PDFs</span>, in one place
                 </h1>
                 <p style={{ color: '#64748b', fontSize: 14, lineHeight: 1.6, maxWidth: 620 }}>
                   Merge, split, convert, compress, OCR and protect PDF files from one clean workspace.
@@ -100,10 +116,11 @@ export default function HomePage({
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(118px, 1fr))', gap: 10, minWidth: 280 }}>
                 <Stat icon={<FileCheck2 size={15} />} value={tools.length} label="Tools" />
-                <Stat icon={<HardDrive size={15} />} value="100 MB" label="Max file" />
+                <Stat icon={<HardDrive size={15} />} value="No Limit" label="Max file" />
                 <Stat icon={<ShieldCheck size={15} />} value="Local" label="Processing" />
                 <Stat icon={<Clock size={15} />} value="Fast" label="Workflow" />
               </div>
+            </div>
             </div>
           </section>
 
@@ -126,13 +143,11 @@ export default function HomePage({
       )}
 
       {!q && (
-        <div style={{
+        <div className="page-glass" style={{
           display: 'flex',
           gap: 8,
           marginBottom: 20,
           flexWrap: 'wrap',
-          background: '#ffffff',
-          border: '1px solid #dbe4f0',
           borderRadius: 8,
           padding: 8,
         }}>
@@ -190,6 +205,7 @@ export default function HomePage({
       ) : (
         filtered.length > 0 && <ToolGrid tools={filtered} onSelect={onSelectTool} highlight={q} />
       )}
+      </div>
     </div>
   )
 }
@@ -197,15 +213,15 @@ export default function HomePage({
 function Stat({ icon, value, label }: { icon: React.ReactNode; value: string | number; label: string }) {
   return (
     <div style={{
-      border: '1px solid #e2e8f0',
-      background: '#f8fafc',
+      border: '1px solid rgba(255,255,255,0.7)',
+      background: 'rgba(255,255,255,0.55)',
       borderRadius: 8,
       padding: '12px 14px',
       display: 'flex',
       alignItems: 'center',
       gap: 10,
     }}>
-      <div style={{ width: 30, height: 30, borderRadius: 6, background: '#e0f2fe', color: '#0369a1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ width: 30, height: 30, borderRadius: 6, background: '#fef2f2', color: BRAND_RED, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {icon}
       </div>
       <div>
@@ -223,9 +239,7 @@ function QuickRow({ icon, label, items, onSelect }: {
   onSelect: (tool: Tool) => void
 }) {
   return (
-    <section style={{
-      background: '#ffffff',
-      border: '1px solid #dbe4f0',
+    <section className="page-glass" style={{
       borderRadius: 8,
       padding: 14,
       minHeight: 96,
@@ -240,7 +254,7 @@ function QuickRow({ icon, label, items, onSelect }: {
             key={tool.id}
             onClick={() => onSelect(tool)}
             style={{
-              border: '1px solid #dbe4f0',
+              border: '1px solid #ececf0',
               background: '#f8fafc',
               color: '#334155',
               borderRadius: 6,
@@ -285,10 +299,11 @@ function ToolCard({ tool, onSelect, highlight }: {
       onClick={() => onSelect(tool)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      className={hovered ? undefined : 'page-glass-solid'}
       style={{
         minHeight: 126,
-        background: hovered ? meta.soft : '#ffffff',
-        border: `1px solid ${hovered ? meta.border : '#dbe4f0'}`,
+        background: hovered ? meta.soft : undefined,
+        border: `1px solid ${hovered ? meta.border : '#ececf0'}`,
         borderRadius: 8,
         padding: 16,
         cursor: 'pointer',

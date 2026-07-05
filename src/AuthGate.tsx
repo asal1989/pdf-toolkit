@@ -73,14 +73,11 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
     return (
       <div style={styles.wrap}>
         <div style={styles.card}>
-          <div style={styles.logoMark}>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8.5L13.5 2z" fill="#fff" fillOpacity="0.16" />
-              <path d="M13.5 2v6.5H20L13.5 2z" fill="#fff" fillOpacity="0.32" />
-              <text x="12" y="17.5" textAnchor="middle" fontSize="7.5" fontWeight="800" fill="#fff" fontFamily="Arial, sans-serif">PDF</text>
-            </svg>
+          <div style={styles.brandRow}>
+            <img src="/bcim-logo.png" alt="BCIM" style={styles.brandLogo} />
+            <span style={styles.brandName}>BCIM Engineering</span>
           </div>
-          <h1 style={styles.title}>BCIM PDF Toolkit</h1>
+          <h1 style={styles.title}>PDF Toolkit</h1>
           <p style={styles.subtitle}>Internal tool — sign in with your company account to continue.</p>
           <button style={styles.btn} onClick={handleSignIn} disabled={signingIn}>
             {signingIn ? (
@@ -128,12 +125,12 @@ const styles: Record<string, React.CSSProperties> = {
     width: '100%', maxWidth: 400, padding: '44px 40px 32px', textAlign: 'center',
     border: '1px solid rgba(255,255,255,0.06)',
   },
-  logoMark: {
-    width: 60, height: 60, borderRadius: 16,
-    background: 'linear-gradient(135deg, #E23B3B 0%, #B91C1C 100%)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    margin: '0 auto 20px', boxShadow: '0 8px 20px rgba(220,38,38,0.35)',
+  brandRow: {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    marginBottom: 28, paddingBottom: 20, borderBottom: '1px solid #f0f0f0',
   },
+  brandLogo: { height: 32, width: 'auto', flexShrink: 0 },
+  brandName: { fontSize: 14, fontWeight: 700, color: '#3c3c3c', letterSpacing: '-0.01em' },
   title: { fontSize: 21, fontWeight: 700, color: '#161616', marginBottom: 8, letterSpacing: '-0.01em' },
   subtitle: { fontSize: 13.5, color: '#787878', marginBottom: 28, lineHeight: 1.6, maxWidth: 280, margin: '0 auto 28px' },
   btn: {
